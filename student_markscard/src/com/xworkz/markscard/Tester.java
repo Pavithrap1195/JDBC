@@ -2,6 +2,7 @@ package com.xworkz.markscard;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -9,9 +10,38 @@ public class Tester {
 
 	public static void main(String[] args) {
 
-		Tester.save();
-		Tester.update();
-		Tester.delete();
+		/*save();
+		update();
+		delete();*/
+		getAll();
+	}
+
+	public static void getAll() {
+
+		Connection con = null;
+		try {
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdbc", "root", "Pavixworkz130621");
+			Statement st = con.createStatement();
+			ResultSet res = st.executeQuery("select*from student_markscard");
+			while(res.next()) {
+				int std_id = res.getInt(1);
+				String std_name = res.getString(2);
+				int std_marks = res.getInt(3);
+				int total_marks = res.getInt(4);
+				System.out.println(std_id+" "+std_name+" "+std_marks+" "+total_marks);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
 	}
 
 	public static void save() {

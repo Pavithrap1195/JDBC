@@ -2,15 +2,37 @@ package com.xworkz.gun;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Tester {
 	
 	public static void main(String[] args) {
-		Tester.save();
-		Tester.update();
-		Tester.delete();
+		//save();
+		//update();
+		//delete();
+		getAll();
+	}
+	
+	public static void getAll() {
+		
+		try {
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdbc", "root", "Pavixworkz130621");
+		Statement stat = conn.createStatement();
+		ResultSet res = stat.executeQuery("Select*from gun_details");
+		while(res.next()) {
+			int id=res.getInt("gun_id");
+			String model=res.getString("gun_model");
+			int price=res.getInt("gun_price");
+			System.out.println(id+"\t"+model+"\t"+price);
+		}
+		conn.close();
+	
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public static void save() {

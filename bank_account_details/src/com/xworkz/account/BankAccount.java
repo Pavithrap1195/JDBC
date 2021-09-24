@@ -2,15 +2,44 @@ package com.xworkz.account;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class BankAccount {
 
 	public static void main(String[] args) {
-		BankAccount.save();
-		BankAccount.update();
-		BankAccount.delete();
+		/*save();
+		update();
+		delete();*/
+		getAll();
+	}
+	
+	public static void getAll() {
+		Connection con = null;
+		try {
+			 con = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdbc", "root", "Pavixworkz130621");
+			Statement st = con.createStatement();
+			ResultSet res = st.executeQuery("select*from bank_account_details");
+			while(res.next()) {
+				int id = res.getInt(1);
+				String name = res.getString(2);
+				String type = res.getString(3);
+				long account_number = res.getLong(4);
+				System.out.println(id+" "+name+" "+type+" "+account_number);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 	}
 
 	public static void save() {
